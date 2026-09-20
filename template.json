@@ -1,0 +1,108 @@
+{
+	"Actor": {
+		"types": ["character", "npc"],
+		"templates": {
+			"pronouns": "",
+			"baseStats": {
+				"virtues": {
+					"resolve": { "value": 8, "label": "Determinação" },
+					"grace": { "value": 8, "label": "Graça" },
+					"wits": { "value": 8, "label": "Astúcia" }
+				},
+				"hp": { "value": 5, "max": 5 },
+				"armor": {
+					"value": 0
+				},
+				"level": { "value": 1 },
+				"ailments": {
+					"weary": false,
+					"woozy": false,
+					"befuddled": false
+				},
+				"trauma": {
+					"box1": false,
+					"box2": false,
+					"box3": false
+				}
+			}
+		},
+		"character": {
+			"templates": ["baseStats"],
+			"level": {
+				"value": "1"
+			},
+			"princessTheme": {
+				"value": ""
+			},
+			"heartDice": {
+				"heart1": false,
+				"heart2": false,
+				"heart3": false,
+				"heart4": false,
+				"extraHeart": false
+			},
+			"giftChoice": { "value": "" },
+			"giftDice": {
+				"gift1": false,
+				"gift2": false,
+				"gift3": false,
+				"gift4": false,
+				"extraGift": false
+			},
+			"details": {
+				"fairyGodmother": "",
+				"giftName": "",
+				"biography": ""
+			},
+			"otherTalents": "",
+			"appearance": "",
+			"cursesWounds": "",
+			"fairyGodmother": "",
+			"personalityQuestion1": "",
+			"personalityQuestion2": "",
+			"personalityQuestion3": "",
+			"personalityQuestion4": ""
+		},
+		"npc": {
+			"templates": ["baseStats"],
+			"save": {
+				"value": "1"
+			},
+			"notes": ""
+		}
+	},
+	"Item": {
+		"types": ["item", "feature"],
+		"templates": {
+			"baseItem": {
+				"description": ""
+			}
+		},
+		"item": {
+			"templates": ["base"],
+			"quantity": 1,
+			"cost": "",
+			"weight": 0,
+			"relicDice": {
+				"relic1": false,
+				"relic2": false,
+				"relic3": false,
+				"relic4": false,
+				"extraRelic": false
+			},
+			"roll": {
+				"diceNum": 1,
+				"diceSize": "d4",
+				"diceBonus": ""
+			}
+		},
+		"feature": {
+			"templates": ["baseItem"],
+			"roll": {
+				"diceNum": 1,
+				"diceSize": "d4",
+				"diceBonus": ""
+			}
+		}
+	}
+}

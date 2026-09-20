@@ -1,0 +1,60 @@
+{
+	"id": "perigoseprincesas",
+	"title": "Perigos & Princesas (BR)",
+	"description": "Sistema não-oficial de Perigos & Princesas para o FoundryVTT, traduzido para PT-BR seguindo a edição da Tria Editora.",
+	"authors": [
+		{
+			"name": "Shyann",
+			"discord": "thenarrativealchemist"
+		},
+		{
+			"name": "Luiz \"Raposo\" Nogueira",
+			"discord": "raposo_el"
+		}
+	],
+	"url": "https://github.com/helloshyann/perilsandprincesses",
+	"license": "LICENSE.txt",
+	"readme": "README.md",
+	"changelog": "CHANGELOG.md",
+	"version": "1.5",
+	"compatibility": {
+		"minimum": "13",
+		"verified": "14"
+	},
+	"esmodules": ["module/perilsandprincesses.mjs"],
+	"styles": ["css/perilsandprincesses.css"],
+	"languages": [
+		{
+			"lang": "pt-BR",
+			"name": "Português (Brasil)",
+			"path": "lang/en.json"
+		}
+	],
+	"packs": [
+		{
+			"name": "itens-br",
+			"label": "Itens",
+			"path": "packs/itens-br",
+			"type": "Item",
+			"system": "perigoseprincesas",
+			"ownership": {
+				"PLAYER": "OBSERVER",
+				"ASSISTANT": "OWNER"
+			}
+		}
+	],
+	"packFolders": [
+		{
+			"name": "Perigos & Princesas",
+			"sorting": "a",
+			"packs": ["itens-br"]
+		}
+	],
+	"socket": false,
+	"manifest": "https://github.com/helloshyann/perilsandprincesses/releases/latest/download/system.json",
+	"download": "https://github.com/helloshyann/perilsandprincesses/releases/download/v1.3/system.zip",
+	"grid.distance": 5,
+	"grid.units": "ft",
+	"primaryTokenAttribute": "hearts",
+	"secondaryTokenAttribute": "gifts"
+}
