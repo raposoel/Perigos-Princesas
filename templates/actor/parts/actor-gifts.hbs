@@ -1,0 +1,126 @@
+{{#if activeGift}}
+	<div class="gift-header pink-card">
+		<div class="gift-title-block">
+			<h2 class="gift-title">{{activeGift.title}}</h2>
+			<p class="flavor-text">{{activeGift.description}}</p>
+		</div>
+	</div>
+	<div class="gift-details">
+		<div class="grid grid-2 pink-card gifts">
+			<div>
+				<h3>Talentos</h3>
+				<p>{{#each activeGift.talents}}{{this}}{{#unless @last}},
+						{{/unless}}{{/each}}</p>
+
+				<div class="flex-col">
+					<strong>Meus outros talentos são...</strong>
+
+					{{editor
+						enriched.talents
+						target="system.otherTalents"
+						engine="prosemirror"
+						button=true
+						editable=editable
+					}}
+
+				</div>
+			</div>
+			<div class="gift-dice-pool">
+				<h3>Dados de Dom</h3>
+				<div class="dice-checkboxes flexrow all-center">
+					<div class="flex-col all-center">
+						<input
+							type="checkbox"
+							name="system.giftDice.gift1"
+							{{checked system.giftDice.gift1}}
+						/>
+						<label class="tiny-text">I</label>
+					</div>
+					<div class="flex-col all-center">
+						<input
+							type="checkbox"
+							name="system.giftDice.gift2"
+							{{checked system.giftDice.gift2}}
+						/>
+						<label class="tiny-text">II</label>
+					</div>
+					<div class="flex-col all-center">
+						<input
+							type="checkbox"
+							name="system.giftDice.gift3"
+							{{checked system.giftDice.gift3}}
+						/>
+						<label class="tiny-text">III</label>
+					</div>
+					<div class="flex-col all-center">
+						<input
+							type="checkbox"
+							name="system.giftDice.gift4"
+							{{checked system.giftDice.gift4}}
+						/>
+						<label class="tiny-text">IV</label>
+					</div>
+					<span class="dice-divider"></span>
+					<div class="flex-col all-center">
+						<input
+							type="checkbox"
+							name="system.giftDice.extraGift"
+							{{checked system.giftDice.extraGift}}
+						/>
+						<label class="tiny-text">Extra</label>
+					</div>
+				</div>
+				<div class="tiny-text gift-text">
+					<p>Um Dado de Dom (d6) por nível. Escolha quantos você quer rolar para
+						usar suas Habilidades Especiais.</p><p>Em 1-2-3 você pode usar o DD
+						novamente. Em 4-5-6, ele é gasto e você não o recupera até
+						Descansar.</p><p>[SOMA] significa o valor total mostrado em seus dados. [DADOS]
+						significa a quantidade de dados que você escolhe rolar.</p><p>SE VOCÊ ROLAR
+						DUPLAS NOS DADOS DE DOM, ocorre um Acidente.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="pink-card flex-col">
+			<h3>Habilidades Inatas</h3>
+			{{#each activeGift.innate}}
+				<div class="innate-ability">
+					<div class="innate-ab-title"><strong>{{{this.name}}}</strong></div>
+					<div class="innate-ab-content">
+						{{{this.text}}}
+					</div>
+				</div>
+			{{/each}}
+		</div>
+
+		<div class="pink-card flex-col">
+			<h3>Habilidades Especiais</h3>
+			{{#each activeGift.special}}
+				<div class="special-ability">
+					<div class="special-ab-title">
+						<span class="ability-level">Nível {{this.level}}</span>
+						<strong>{{{this.name}}}</strong>
+					</div>
+					<div class="special-ab-content">
+						{{{this.text}}}
+					</div>
+				</div>
+			{{/each}}
+		</div>
+
+		<div class="pink-card flex-col">
+			<h3>Acidentes (Duplas)</h3>
+			<table class="mishaps-table">
+				{{#each activeGift.mishaps}}
+					<tr>
+						<td class="mishap-number"></td>
+						<td>{{this}}</td>
+					</tr>
+				{{/each}}
+			</table>
+		</div>
+	</div>
+{{else}}
+	<p class="pink-card">Selecione um Dom no cabeçalho para revelar seus poderes de
+		Princesa.</p>
+{{/if}}

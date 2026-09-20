@@ -1,0 +1,58 @@
+<table class="pp-item-table pink-card flex-col">
+	<thead>
+		<tr class="pp-items-list-header grid grid-5">
+			<th class="purse grid-span-3">Nome</th>
+			<th class="purse">Rolagem</th>
+			<th class="item-controls purse">
+				<a
+					class="item-control item-create"
+					title="Criar Habilidade"
+					data-type="feature"
+				>
+					<i class="fas fa-plus-circle"></i>
+				</a>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each features as |item id|}}
+			<tr class="item pp-item-row grid grid-5" data-item-id="{{item._id}}">
+				{{! Name & Image }}
+				<td class="item-name flex-row grid-span-3">
+					<div class="item-image">
+						<a class="rollable pp-item-roll-trigger" data-roll-type="item">
+							<img
+								src="{{item.img}}"
+								title="{{item.name}}"
+								width="24"
+								height="24"
+							/>
+						</a>
+					</div>
+					<h4 class="">{{item.name}}</h4>
+				</td>
+
+				{{! Properties }}
+				<td class="text-center" style="font-weight: bold;">
+					{{#if item.system.roll.diceNum}}
+						{{item.system.roll.diceNum}}{{item.system.roll.diceSize}}
+					{{else}}
+						—
+					{{/if}}
+				</td>
+
+				{{! Controls }}
+				<td class="item-controls">
+					<div class="flex-row">
+						<a class="item-control item-edit" title="Editar"><i
+								class="fas fa-feather-alt"
+							></i></a>
+						<a class="item-control item-delete" title="Excluir"><i
+								class="fas fa-times"
+							></i></a>
+					</div>
+				</td>
+			</tr>
+		{{/each}}
+	</tbody>
+</table>

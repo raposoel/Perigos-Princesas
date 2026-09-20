@@ -1,0 +1,210 @@
+<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+  <div class="header-image">
+    <img src="systems/perigoseprincesas/assets/PandP_LogoHorizontal.png" 
+         title="P&P Logo" 
+         alt="Logo" />
+  </div>
+  {{!-- Sheet Navigation --}}
+  <nav class="sheet-tabs pink-card" data-group="primary">
+    {{!-- Default tab is specified in actor-sheet.mjs --}}
+    <a class="item" data-tab="description">História</a>
+    <a class="item" data-tab="features">Virtudes</a>
+    <a class="item" data-tab="spells">Dons</a>
+    <a class="item" data-tab="items">Bolsa</a>
+    <a class="item" data-tab="special">Especial</a>
+  </nav>
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header flex-row pink-card all-center">
+    <div class="picture-frame">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="150" width="150"/>
+    </div>
+    <div class="header-fields flex-col">
+      <div class="flex-row name-level-container">
+        <h1 class="charname">
+          <label class="tiny-text level-text">Nome</label>     
+          <input name="name" type="text" value="{{actor.name}}" placeholder="Nome"/>
+        </h1>
+        <div class="fairytale-container level-container flex-col">
+          <label for="system.level.value" class="tiny-text level-text">Nível</label>          
+          <div class="fairytale-frame">
+          <input type="text" name="system.level.value" value="{{system.level.value}}" data-dtype="Number"/>          
+          </div>
+        </div>
+      </div>
+      
+      <div class="resources flex-row all-center lower-header-container">
+        <div class="resource flex-col">
+          <div class="pronoun-container">
+            <label class="tiny-text level-text">Pronomes</label>     
+            <input name="system.pronouns.value" type="text" value="{{system.pronouns.value}}"/>
+          </div>          
+        </div>
+
+        <div class="resource flex-col">
+          <div class="pronoun-container">
+          <label
+            for="princess-theme"
+            class="tiny-text level-text"
+            >Tema</label
+          >
+          <select
+            id="princess-theme"
+            name="system.princessTheme.value"
+          >
+            <option></option>
+            {{selectOptions princessThemeOptions selected=princessTheme}}
+          </select>
+          </div>          
+        </div>
+      </div>
+
+      <div class="resources flex-row all-center lower-header-container">
+        <div class="resource flex-col gift-resource">
+          <div class="pronoun-container">
+          <label
+            class="tiny-text level-text"
+            >Escolha de Dom</label
+          >
+            <select name="system.giftChoice.value">
+              {{selectOptions giftOptions selected=system.giftChoice.value labelAttr="label"}}
+            </select>  
+            </div>        
+        </div>
+        <div class="header-rollers flex-row">
+          <button type="button" class="pp-roll-btn d20" data-roll="d20" title="Rolar d20"></button>
+          <button type="button" class="pp-roll-btn d6" data-roll="d6" title="Rolar d6"></button>
+          <button type="button" class="pp-roll-btn d4" data-roll="d4" title="Rolar d4"></button>
+        </div>
+      </div>
+    </div>
+  </header>  
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Virtues Tab --}}
+    <div class="tab features" data-group="primary" data-tab="features">
+      <section class="flexrow pink-card virtue-row">
+        {{#each system.virtues as |virtue id|}}
+          <div class="fairytale-container">
+            <div class="fairytale-frame">
+              <input type="number" name="system.virtues.{{id}}.value" value="{{virtue.value}}"/>
+            </div>
+            <div class="virtue-banner pp-virtue-roll" data-label="{{virtue.label}}" data-value="{{virtue.value}}">{{virtue.label}}</div>
+          </div>
+        {{/each}}
+      </section>
+
+      <section class="grid grid-2">
+        {{!-- Heart Point Section --}}
+        <div class="hp-section">
+          <div class="pink-card flex-col all-center">
+            <h3>Pontos Coração</h3>
+            <div class="flex-row">
+              <div class="hp-current-main flex-col fairytale-container">
+                <div class="fairytale-frame"><input type="number" name="system.hp.value" value="{{system.hp.value}}"/></div>
+                <span class="tiny-text">PC Atual</span>
+              </div>
+              <div class="hp-max-satellite flex-col fairytale-container">
+                <div class="fairytale-frame"><input type="number" name="system.hp.max" value="{{system.hp.max}}"/></div>
+                <span class="tiny-text">PC Máximo</span>
+              </div>
+            </div>
+          </div>          
+          <div class="pink-card flex-col all-center">
+            <div class="flex-col all-center"><h3>Dados Coração</h3><span class="tiny-text">Um d4 por nível. Gaste de duas formas: <ul><li>1. Curar PC durante um Piquenique</li><li>2. Subtrair o valor rolado de um Teste de Virtude falho de uma amiga</li></ul> Os Dados Coração se renovam após um Descanso.</span></div>
+            <div class="flex-row all-center">
+              <div class="hd flex-col all-center">
+                <input type="checkbox" name="system.heartDice.heart1" {{checked system.heartDice.heart1}}/>
+                <span class="tiny-text">I</span>
+              </div>
+              <div class="hd flex-col all-center">
+                <input type="checkbox" name="system.heartDice.heart2" {{checked system.heartDice.heart2}}/>
+                <span class="tiny-text">II</span>
+              </div>
+              <div class="hd flex-col all-center">
+                <input type="checkbox" name="system.heartDice.heart3" {{checked system.heartDice.heart3}}/>
+                <span class="tiny-text">III</span>
+              </div>
+              <div class="hd flex-col all-center">
+                <input type="checkbox" name="system.heartDice.heart4" {{checked system.heartDice.heart4}}/>
+                <span class="tiny-text">IV</span>
+              </div>
+              <div class="hd flex-col all-center">
+                <input type="checkbox" name="system.heartDice.extraHeart" {{checked system.heartDice.extraHeart}}/>
+                <span class="tiny-text">Extra</span>
+              </div>
+            </div>                   
+          </div>
+        </div>
+        {{!-- Armor, Ailment, Trauma Section --}}
+        <div class="pink-card flex-col all-center armor">
+          <div class="flex-col all-center fairytale-container">
+            <h3>Armadura</h3>
+            <div class="fairytale-frame">
+              <input type="number" name="system.armor.value" value="{{system.armor.value}}"/>
+            </div>
+            <span class="tiny-text">A Armadura reduz o dano físico sofrido em seus PC. Subtraia o valor da sua Armadura do dano recebido.</span>
+          </div>
+          <div class="flex-col ailments all-center">
+            <h3>Aflições</h3>
+            <div class="flex-row">
+              <div class="ailment flex-col all-center">
+              <input type="checkbox" name="system.ailments.weary" {{checked system.ailments.weary}}/>
+              <span class="tiny-text">Cansada</span>
+            </div>
+            <div class="ailment flex-col all-center">
+              <input type="checkbox" name="system.ailments.woozy" {{checked system.ailments.woozy}}/>
+              <span class="tiny-text">Atordoada</span>
+            </div>
+            <div class="ailment flex-col all-center">
+              <input type="checkbox" name="system.ailments.befuddled" {{checked system.ailments.befuddled}}/>
+              <span class="tiny-text">Confusa</span>
+            </div>
+            </div>
+          </div>
+
+          <div class="flex-col traumas all-center">
+            <h3>Trauma</h3>
+            <div class="flex-row">
+              <div class="trauma flex-col all-center">
+                <input type="checkbox" name="system.trauma.box1" {{checked system.trauma.box1}}/>
+                <span class="tiny-text">I</span>
+              </div>
+              <div class="trauma flex-col all-center">
+                <input type="checkbox" name="system.trauma.box2" {{checked system.trauma.box2}}/>
+                <span class="tiny-text">II</span>
+              </div>
+              <div class="trauma flex-col all-center">
+                <input type="checkbox" name="system.trauma.box3" {{checked system.trauma.box3}}/>
+                <span class="tiny-text">III</span>
+              </div>
+            </div>
+          </div>
+        </div>      
+      </section>
+    </div>
+
+    {{!-- Story Tab --}}
+    <div class="tab biography" data-group="primary" data-tab="description">
+      {{> "systems/perigoseprincesas/templates/actor/parts/actor-story.hbs"}}
+    </div>
+
+    {{!-- Purse Tab --}}
+    <div class="tab items" data-group="primary" data-tab="items">
+        {{> "systems/perigoseprincesas/templates/actor/parts/actor-items.hbs"}}
+    </div>
+
+    {{!-- Gifts Tab --}}
+    <div class="tab spells" data-group="primary" data-tab="spells">
+      {{> "systems/perigoseprincesas/templates/actor/parts/actor-gifts.hbs"}}
+    </div>
+
+    {{!-- Special Tab --}}
+    <div class="tab special" data-group="primary" data-tab="special">
+      {{> "systems/perigoseprincesas/templates/actor/parts/actor-special.hbs"}}
+    </div>
+
+  </section>
+</form>
