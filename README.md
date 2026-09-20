@@ -6,7 +6,7 @@
 <img src="assets\PandP_LogoHorizontal.png"/>
 </div>
 
-> **Retratação:** Este é o sistema de jogo para Perigos & Princesas em Brasileiro para o Foundry VTT. "Perils & Princesses" é protegido por direitos autorais da Outrider Creative LLC.
+> **Retratação:** Este é um sistema de jogo não-oficial para Perigos & Princesas em Brasileiro. "Perils & Princesses" é protegido por direitos autorais da Outrider Creative LLC. Disponível em Brasileiro pela Tria Editora.
 
 ## Installing the System
 
@@ -19,19 +19,3 @@ Copy and paste the following link https://github.com/helloshyann/perilsandprince
 
 Download the system from its [latest release](https://github.com/helloshyann/perilsandprincesses/releases/latest/download/system.zip).
 Unzip the downloaded file into the following data path in your Foundry VTT user-data folder: `data/systems`.
-
-## System Parts
-
-There are two types of sheets in the system: "Actors" and "Items". Each sheet has two sub-types:
-
-**ACTORS**
-
-- **Princess Sheet** - The Princess Actor sheet is the character sheet used for player characters.
-- **NPC** - NPC sheets should be used for all other creatures, including other characters like antagonists, commoners, and monsters.
-
-**ITEMS**
-
-- **Items** - Physical items that will be sorted into your Purse that are physically tangible. Item sheets have a spot for the item's weight and a quanitity in it's header.
-- **Features** - Non-physical items, magic, or extra abilities that will be sorted into the Special tab on the character sheet. Feature sheets do not have an associated weight or quantity.
-
-Items and Features both have an "Attributes" tab where you can set custom dice formulas to roll. Leave them blank to roll "0" and remove buttons from cards sent to chat logs.
