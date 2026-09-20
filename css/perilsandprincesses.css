@@ -1,0 +1,1177 @@
+/* --- 1. Variables & Root --- */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&family=UnifrakturCook:wght@700&display=swap");
+@font-face {
+  font-family: "Pentacle";
+  src: url("../assets/fonts/Pentacle-Gothic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  font-size: 15px;
+  --primary-font: "Roboto Flex", sans-serif;
+  --secondary-font: "Pentacle";
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --pp-pink: #c9919c;
+  --pp-gold: #cec58e;
+  --pp-purp: #b3a7d7;
+  --pp-green: #b7d4c2;
+  --pp-brown: #4e3f3f;
+  --pp-white: #f8f6f8;
+  /* Subcore Colors */
+  --pp-rose-deep: #8e444a; /* Bold headers, success/fail text, d20 icons */
+  --pp-rose-soft: #f4e7e8; /* Hover states, row backgrounds */
+  /* Sage / Nature Accents */
+  --pp-sage-deep: #4a5d4e; /* Success text, specialized roll results */
+  --pp-sage-soft: #c8d1c5; /* Zebra striping, mishap bubbles */
+  /* Text & Ink */
+  --pp-ink-story: #2c2421; /* Main body text (EB Garamond style) */
+  --pp-ink-faded: #5a504c; /* Labels, placeholders */
+  /* Glassmorphism Backgrounds */
+  --pp-glass-bg: rgba(255, 255, 255, 0.135);
+  --pp-glass-border: rgba(255, 255, 255, 0.135);
+  --pp-glass-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* --- 2. Mixins --- */
+/* --- 3. Global Styles --- */
+.header-image {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-height: 3rem;
+}
+.header-image img {
+  border: none;
+  width: auto;
+  max-height: 2.5rem;
+  -webkit-filter: drop-shadow(2px 0 0 white) drop-shadow(-2px 0 0 white) drop-shadow(0 2px 0 white) drop-shadow(0 -2px 0 white);
+          filter: drop-shadow(2px 0 0 white) drop-shadow(-2px 0 0 white) drop-shadow(0 2px 0 white) drop-shadow(0 -2px 0 white);
+}
+
+.editor {
+  margin-top: -0.5rem;
+  min-height: 6rem;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.editor .editor-content,
+.editor .prosemirror {
+  min-height: 2rem;
+  height: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.editor-container {
+  min-height: 4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+}
+
+.mishaps-table {
+  counter-reset: mishap-count 0;
+}
+.mishaps-table tr {
+  counter-increment: mishap-count;
+}
+.mishaps-table tr .mishap-number::before {
+  content: counter(mishap-count) "s";
+  font-family: var(--secondary-font);
+  font-size: 1.65rem;
+  font-weight: bold;
+  color: var(--pp-brown);
+}
+
+.gift-title {
+  font-family: var(--secondary-font);
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+
+.pp-chat-card {
+  padding: var(--space-md);
+  border-radius: var(--space-sm);
+  border: 6px double var(--pp-brown);
+  background-color: var(--pp-pink);
+  margin-bottom: var(--space-sm);
+}
+.pp-chat-card .pp-font-display {
+  font-size: 1.125rem;
+  color: var(--pp-brown);
+  border-bottom: 4px double var(--pp-brown);
+}
+.pp-chat-card .pp-font-main {
+  color: var(--pp-brown);
+}
+.pp-chat-card .result {
+  font-size: 3rem !important;
+  font-family: var(--secondary-font) !important;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0px 0px 8px rgba(255, 255, 255, 0.8);
+}
+
+.pp-item-table {
+  width: 100%;
+  border-collapse: separate;
+  margin-top: var(--space-sm);
+}
+.pp-item-table thead th.purse {
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--pp-white);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+.pp-item-table thead th.purse:first-child {
+  text-align: left;
+}
+.pp-item-table .pp-item-row {
+  margin-top: var(--space-xs);
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background: var(--pp-white);
+  border: 1px solid var(--pp-brown);
+  border-radius: 9px;
+}
+.pp-item-table .pp-item-row:first-child {
+  margin-top: 0;
+}
+.pp-item-table .pp-item-row td {
+  width: 100% !important;
+  padding: var(--space-xs) var(--space-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.pp-item-table .pp-item-row td:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px 0 0 8px;
+}
+.pp-item-table .pp-item-row td:last-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 8px 8px 0;
+}
+.pp-item-table .pp-item-row .item-name h4 {
+  margin: 0;
+  line-height: 24px;
+}
+.pp-item-table .pp-item-row .item-name img {
+  border: none;
+}
+.pp-item-table .item-controls {
+  text-align: right;
+  width: 60px;
+}
+.pp-item-table .item-controls i {
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.pp-item-table .item-controls i:hover {
+  opacity: 1;
+  color: var(--pp-rose-deep);
+}
+
+.pp-chat-roll-btn {
+  width: 100%;
+  background: var(--pp-brown);
+  border: 6px double var(--pp-white);
+  color: var(--pp-white);
+  font-family: var(--primary-font);
+  font-weight: bold;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: var(--space-sm);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.pp-chat-roll-btn:hover {
+  background: var(--pp-white);
+  color: var(--pp-brown);
+  border: 6px double var(--pp-brown);
+  -webkit-box-shadow: 0 0 4px var(--pp-brown);
+          box-shadow: 0 0 4px var(--pp-brown);
+}
+.pp-chat-roll-btn:focus {
+  outline: 1px solid var(--pp-pink);
+  -webkit-box-shadow: 0 0 4px var(--pp-pink);
+          box-shadow: 0 0 4px var(--pp-pink);
+}
+.pp-chat-roll-btn i {
+  margin-right: 5px;
+}
+
+.pp-item-roll {
+  margin-top: var(--space-lg);
+  width: 100%;
+  height: 3rem;
+  background-color: var(--pp-white);
+  color: var(--pp-brown);
+  font-family: var(--secondary-font);
+  font-size: 1.75rem;
+  border: 4px double var(--pp-pink);
+  border-radius: var(--space-sm);
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.pp-item-roll:hover {
+  background-color: var(--pp-pink);
+  color: var(--pp-white);
+  border: 4px double var(--pp-white);
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+.pp-item-roll i {
+  margin-right: 10px;
+}
+
+.pink-card {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  width: 100%;
+  max-height: 100%;
+  margin: var(--space-xs) 0;
+  padding: var(--space-sm);
+  border-radius: var(--space-sm);
+  overflow: visible;
+  background-color: var(--pp-white);
+  background-position: center center;
+  background-size: cover;
+  border: 4px double var(--pp-pink);
+  color: var(--pp-brown);
+}
+.pink-card h2,
+.pink-card h3 {
+  border-bottom: 1px solid var(--pp-brown) !important;
+  color: var(--pp-brown);
+}
+
+.gift-text {
+  border-radius: var(--space-xs);
+  margin-top: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--pp-pink);
+  color: var(--pp-brown);
+  font-weight: 400;
+}
+
+/* --- 4. System Layout Utlities --- */
+.perilsandprincesses .flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.perilsandprincesses .flex-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: var(--space-md);
+}
+.perilsandprincesses .flex-row.gap-sm {
+  gap: var(--space-sm);
+}
+.perilsandprincesses .flex-row.gap-lg {
+  gap: var(--space-lg);
+}
+.perilsandprincesses .flex-col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: var(--space-sm);
+}
+.perilsandprincesses .grid {
+  display: -ms-grid;
+  display: grid;
+  gap: var(--space-md);
+}
+.perilsandprincesses .grid.grid-2 {
+  -ms-grid-columns: (1fr)[2];
+  grid-template-columns: repeat(2, 1fr);
+}
+.perilsandprincesses .grid.grid-3 {
+  -ms-grid-columns: (1fr)[3];
+  grid-template-columns: repeat(3, 1fr);
+}
+.perilsandprincesses .grid.grid-4 {
+  -ms-grid-columns: (1fr)[4];
+  grid-template-columns: repeat(4, 1fr);
+}
+.perilsandprincesses .grid.grid-5 {
+  -ms-grid-columns: 1fr 0.25fr 0.25fr 0.25fr 0.1fr;
+  grid-template-columns: 1fr 0.25fr 0.25fr 0.25fr 0.1fr;
+}
+.perilsandprincesses .grid.grid-6 {
+  -ms-grid-columns: (1fr)[6];
+  grid-template-columns: repeat(6, 1fr);
+}
+.perilsandprincesses .grid .grid-span-1 {
+  -ms-grid-column-span: 1;
+  grid-column: span 1;
+}
+.perilsandprincesses .grid .grid-span-2 {
+  -ms-grid-column-span: 2;
+  grid-column: span 2;
+}
+.perilsandprincesses .grid .grid-span-3 {
+  -ms-grid-column-span: 3;
+  grid-column: span 3;
+}
+.perilsandprincesses .grid.grid-center {
+  justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+}
+.perilsandprincesses .fairytale-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: var(--space-xs);
+}
+.perilsandprincesses .fairytale-container .fairytale-frame {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 6px double var(--pp-pink);
+}
+.perilsandprincesses .fairytale-container .fairytale-frame input {
+  padding-top: 0.5rem;
+  font-size: 3rem;
+  height: 3rem;
+  line-height: 3rem;
+  font-weight: 600;
+  border: none;
+  text-align: center;
+  color: var(--pp-brown);
+  font-family: var(--secondary-font);
+}
+.perilsandprincesses .fairytale-container .virtue-banner {
+  font-family: var(--secondary-font);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.perilsandprincesses .fairytale-container .pp-virtue-roll {
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.perilsandprincesses .fairytale-container .pp-virtue-roll:hover {
+  color: var(--pp-pink);
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+.perilsandprincesses .npc-frame-container .npc-frame input {
+  font-size: 1.75rem;
+}
+.perilsandprincesses .level-container .fairytale-frame {
+  width: 48px;
+  height: 48px;
+}
+.perilsandprincesses .innate-ability {
+  border: 3px solid var(--pp-pink);
+  border-radius: var(--space-sm) var(--space-sm) 0 0;
+}
+.perilsandprincesses .innate-ability .innate-ab-title {
+  background-color: var(--pp-pink);
+  font-family: var(--secondary-font);
+  font-size: 1.5rem;
+  border-radius: 2px 2px 0 0;
+  color: var(--pp-brown);
+  padding: var(--space-xs);
+}
+.perilsandprincesses .innate-ability .innate-ab-content {
+  padding: var(--space-sm);
+  background: rgba(208, 197, 209, 0.2);
+}
+.perilsandprincesses .special-ability {
+  border: 3px solid var(--pp-pink);
+  border-radius: var(--space-sm) var(--space-sm) 0 0;
+}
+.perilsandprincesses .special-ability .special-ab-title {
+  font-family: var(--secondary-font);
+  font-size: 1.5rem;
+  background-color: var(--pp-pink);
+  border-radius: 2px 2px 0 0;
+  color: var(--pp-brown);
+  padding: 0 var(--space-xs);
+}
+.perilsandprincesses .special-ability .special-ab-title .ability-level {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: var(--secondary-font);
+}
+.perilsandprincesses .special-ability .special-ab-title strong {
+  padding: 0 var(--space-sm);
+}
+.perilsandprincesses .special-ability .special-ab-content {
+  padding: var(--space-sm);
+  background: rgba(208, 197, 209, 0.2);
+}
+.perilsandprincesses .text-center {
+  text-align: center;
+}
+.perilsandprincesses .text-right {
+  text-align: right;
+}
+.perilsandprincesses .uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.perilsandprincesses .tiny-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.perilsandprincesses .level-text {
+  color: var(--pp-brown);
+  font-weight: 700;
+}
+.perilsandprincesses .all-center {
+  justify-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  text-align: center;
+}
+
+/* --- 5. The System Wrapper --- */
+.perilsandprincesses input[type=text],
+.perilsandprincesses input[type=number],
+.perilsandprincesses input[type=checkbox] {
+  background: transparent;
+  border: none;
+}
+.perilsandprincesses input[type=text]:focus,
+.perilsandprincesses input[type=number]:focus,
+.perilsandprincesses input[type=checkbox]:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.perilsandprincesses input[type=checkbox],
+.perilsandprincesses select,
+.perilsandprincesses select option {
+  background: var(--pp-white) !important;
+  color: var(--pp-brown);
+}
+.perilsandprincesses select {
+  border: 4px double var(--pp-pink);
+}
+.perilsandprincesses table {
+  margin: 0 0 !important;
+  width: 100%;
+  border-collapse: separate;
+  border: 3px double var(--pp-pink);
+  border-radius: var(--space-sm);
+}
+.perilsandprincesses table thead th {
+  color: var(--pp-brown);
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  padding: var(--space-sm);
+  text-align: left;
+}
+.perilsandprincesses table tbody tr {
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.perilsandprincesses table tbody tr:nth-child(even) {
+  background: rgba(208, 197, 209, 0.2);
+}
+.perilsandprincesses table td {
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  border: none;
+}
+.perilsandprincesses table td:first-child {
+  font-family: var(--pp-font-display);
+  color: var(--pp-brown);
+  background: var(--pp-pink);
+  font-weight: 700;
+  width: 3rem;
+  text-align: center;
+}
+.perilsandprincesses {
+  /* NAVIGATION */
+}
+.perilsandprincesses nav.sheet-tabs {
+  position: relative;
+  padding: 0 0 !important;
+}
+.perilsandprincesses nav.sheet-tabs .item {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+  line-height: 2.2rem;
+  font-family: var(--secondary-font);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--pp-brown);
+  border-radius: var(--space-xs);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0px 0px 8px rgba(255, 255, 255, 0.8);
+}
+.perilsandprincesses nav.sheet-tabs .item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("../assets/turret.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  opacity: 0;
+  z-index: -1;
+  -webkit-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transform: translateY(15px) scale(0.8);
+          transform: translateY(15px) scale(0.8);
+}
+.perilsandprincesses nav.sheet-tabs .item:hover::after {
+  opacity: 0.4;
+  -webkit-transform: translateY(0) scale(0.9);
+          transform: translateY(0) scale(0.9);
+}
+.perilsandprincesses nav.sheet-tabs .item.active {
+  background: transparent;
+  color: var(--pp-brown);
+}
+.perilsandprincesses nav.sheet-tabs .item.active::after {
+  opacity: 0.85;
+  -webkit-transform: translateY(-1px) scale(1.33);
+          transform: translateY(-1px) scale(1.33);
+}
+.perilsandprincesses {
+  /* ACTOR SHEETS */
+}
+.perilsandprincesses.sheet.actor .window-content {
+  background: var(--pp-pink);
+  background-image: url("../assets/white-pencil.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: var(--space-xs);
+  overflow: hidden;
+  font-family: var(--primary-font);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) {
+  background: var(--pp-gold);
+  background-image: url("../assets/white-pencil.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) nav.sheet-tabs .item::after {
+  background-image: url("../assets/turret-gold.png");
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .pink-card {
+  border: 4px double var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) form.character .sheet-header .profile-img {
+  border: 6px double var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) form.character .sheet-header .header-fields .charname input {
+  border: 2px solid var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) form.character .sheet-header .header-fields .pronoun-container input {
+  border: 2px solid var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) form.character .sheet-header .header-fields select {
+  border: 2px solid var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .fairytale-container .fairytale-frame {
+  border: 6px double var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .fairytale-container .pp-virtue-roll:hover {
+  color: var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) table {
+  border: 3px double var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) table td:first-child {
+  background: var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .gift-text {
+  background-color: var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .innate-ability {
+  border: 3px solid var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .innate-ability .innate-ab-title {
+  background-color: var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .special-ability {
+  border: 3px solid var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.market) .special-ability .special-ab-title {
+  background-color: var(--pp-gold);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) {
+  background: var(--pp-purp);
+  background-image: url("../assets/white-pencil.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) nav.sheet-tabs .item::after {
+  background-image: url("../assets/turret-purp.png");
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .pink-card {
+  border: 4px double var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) form.character .sheet-header .profile-img {
+  border: 6px double var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) form.character .sheet-header .header-fields .charname input {
+  border: 2px solid var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) form.character .sheet-header .header-fields .pronoun-container input {
+  border: 2px solid var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) form.character .sheet-header .header-fields select {
+  border: 2px solid var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .fairytale-container .fairytale-frame {
+  border: 6px double var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .fairytale-container .pp-virtue-roll:hover {
+  color: var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) table {
+  border: 3px double var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) table td:first-child {
+  background: var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .gift-text {
+  background-color: var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .innate-ability {
+  border: 3px solid var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .innate-ability .innate-ab-title {
+  background-color: var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .special-ability {
+  border: 3px solid var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.candy) .special-ability .special-ab-title {
+  background-color: var(--pp-purp);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) {
+  background: var(--pp-green);
+  background-image: url("../assets/white-pencil.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) nav.sheet-tabs .item::after {
+  background-image: url("../assets/turret-green.png");
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .pink-card {
+  border: 4px double var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) form.character .sheet-header .profile-img {
+  border: 6px double var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) form.character .sheet-header .header-fields .charname input {
+  border: 2px solid var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) form.character .sheet-header .header-fields .pronoun-container input {
+  border: 2px solid var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) form.character .sheet-header .header-fields select {
+  border: 2px solid var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .fairytale-container .fairytale-frame {
+  border: 6px double var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .fairytale-container .pp-virtue-roll:hover {
+  color: var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) table {
+  border: 3px double var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) table td:first-child {
+  background: var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .gift-text {
+  background-color: var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .innate-ability {
+  border: 3px solid var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .innate-ability .innate-ab-title {
+  background-color: var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .special-ability {
+  border: 3px solid var(--pp-green);
+}
+.perilsandprincesses.sheet.actor .window-content:has(.dragon) .special-ability .special-ab-title {
+  background-color: var(--pp-green);
+}
+.perilsandprincesses.sheet.actor form.character,
+.perilsandprincesses.sheet.actor form.npc {
+  padding: var(--space-md);
+  height: 100%;
+  /* HEADER SECTION */
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header,
+.perilsandprincesses.sheet.actor form.npc .sheet-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  gap: var(--space-md);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .picture-frame,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .picture-frame {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: var(--space-xs);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .profile-img,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .profile-img {
+  height: 8rem;
+  width: 8rem;
+  border-radius: 100%;
+  border: 6px double var(--pp-pink);
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .name-level-container,
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .lower-header-container,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .name-level-container,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .lower-header-container {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: end;
+  text-align: left;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  row-gap: var(--space-xs);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .gift-resource {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-width: 10rem;
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .gift-resource select {
+  width: 100%;
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .charname label,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .charname label {
+  margin-left: var(--space-xs);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .charname input,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .charname input {
+  padding-top: 0.5rem;
+  font-family: var(--secondary-font);
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: var(--pp-brown);
+  background-color: var(--pp-white);
+  border: 2px solid var(--pp-pink);
+  width: 100%;
+  margin: 0;
+  padding-left: var(--space-sm);
+  border-radius: var(--space-xs);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .pronoun-container input,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .pronoun-container input {
+  border-radius: var(--space-xs);
+  background-color: var(--pp-white);
+  border: 2px solid var(--pp-pink);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields select,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields select {
+  border: 2px solid var(--pp-pink);
+  border-radius: var(--space-xs);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .resource input,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .resource input {
+  color: var(--pp-brown);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .header-rollers,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .header-rollers {
+  margin-top: var(--space-xs);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .header-rollers .pp-roll-btn,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .header-rollers .pp-roll-btn {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  cursor: pointer;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.8rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 5px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  background: transparent;
+  width: 1.6rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: 100%;
+  background-size: 100% 100%;
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .header-rollers .pp-roll-btn:hover,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .header-rollers .pp-roll-btn:hover {
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  -webkit-box-shadow: 0 4px 10px rgba(142, 68, 74, 0.2);
+          box-shadow: 0 4px 10px rgba(142, 68, 74, 0.2);
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .header-rollers .pp-roll-btn.d20,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .header-rollers .pp-roll-btn.d20 {
+  background-image: url("../assets/D20.png");
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .header-rollers .pp-roll-btn.d6,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .header-rollers .pp-roll-btn.d6 {
+  background-image: url("../assets/D6.png");
+}
+.perilsandprincesses.sheet.actor form.character .sheet-header .header-fields .header-rollers .pp-roll-btn.d4,
+.perilsandprincesses.sheet.actor form.npc .sheet-header .header-fields .header-rollers .pp-roll-btn.d4 {
+  background-image: url("../assets/D4.png");
+}
+.perilsandprincesses.sheet.actor form.character,
+.perilsandprincesses.sheet.actor form.npc {
+  /* BODY SECTION */
+}
+.perilsandprincesses.sheet.actor form.character section.sheet-body,
+.perilsandprincesses.sheet.actor form.npc section.sheet-body {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow-y: auto;
+}
+.perilsandprincesses.sheet.actor form.character section.sheet-body h3,
+.perilsandprincesses.sheet.actor form.npc section.sheet-body h3 {
+  font-family: var(--secondary-font);
+  color: var(--pp-brown);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.perilsandprincesses.sheet.actor form.character section.sheet-body ul,
+.perilsandprincesses.sheet.actor form.npc section.sheet-body ul {
+  padding: 0;
+  margin: var(--space-sm);
+}
+.perilsandprincesses.sheet.actor form.character section.sheet-body ul li::marker,
+.perilsandprincesses.sheet.actor form.npc section.sheet-body ul li::marker {
+  color: var(--pp-white);
+}
+.perilsandprincesses {
+  /* ITEM SHEETS */
+}
+.perilsandprincesses.sheet.item {
+  min-width: 450px;
+  min-height: 400px;
+}
+.perilsandprincesses.sheet.item .window-content {
+  background: var(--pp-white);
+  padding: 0;
+  overflow: hidden;
+}
+.perilsandprincesses.sheet.item .pink-card {
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  border: 8px double var(--pp-pink);
+  background-color: var(--pp-white);
+  background-image: url("../assets/white-pencil.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.perilsandprincesses.sheet.item .sheet-header {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  border-bottom: 2px solid var(--pp-brown);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+.perilsandprincesses.sheet.item .sheet-header .charname input {
+  padding-top: 0.5rem;
+  font-family: var(--secondary-font);
+  font-size: 2.5rem;
+  color: var(--pp-brown);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--space-xs);
+}
+.perilsandprincesses.sheet.item .resource input {
+  background: var(--pp-white);
+  border: 1px solid var(--pp-brown);
+  border-radius: 4px;
+  padding: 2px 5px;
+  color: var(--pp-brown);
+  text-align: center;
+}
+.perilsandprincesses.sheet.item nav.sheet-tabs {
+  border-top: none;
+  border-bottom: none;
+  background: var(--pp-white);
+  border-radius: var(--space-sm);
+  border: 4px double var(--pp-pink);
+  padding: var(--space-xs);
+}
+.perilsandprincesses.sheet.item nav.sheet-tabs .item {
+  color: var(--pp-brown);
+  line-height: 2rem;
+}
+.perilsandprincesses.sheet.item nav.sheet-tabs .item.active::after {
+  -webkit-transform: translateY(-5px) scale(1);
+          transform: translateY(-5px) scale(1);
+}
+.perilsandprincesses.sheet.item .sheet-body {
+  margin: 1rem;
+  font-size: 1rem;
+}
+.perilsandprincesses.sheet.item .pp-item-roll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: var(--pp-brown);
+  color: var(--pp-white);
+}
+.perilsandprincesses.sheet.item .pp-item-roll:hover {
+  background: var(--pp-pink);
+  color: var(--pp-brown);
+  border-color: var(--pp-brown);
+}
+.perilsandprincesses.sheet.item .resource-label {
+  color: var(--pp-brown);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  margin-bottom: 2px;
+  display: block;
+}
+/* --- Themed Roll Dialogs (Testes de Virtude, Dados de Dom, Dados Coração) --- */
+.pp-dialog.window-app {
+  font-family: var(--primary-font);
+}
+.pp-dialog .window-header {
+  background: var(--pp-pink);
+  color: var(--pp-white);
+  font-family: var(--secondary-font);
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid var(--pp-rose-deep);
+}
+.pp-dialog .window-header a.header-button,
+.pp-dialog .window-header .header-control {
+  color: var(--pp-white);
+}
+.pp-dialog .window-content {
+  background: var(--pp-white);
+  background-image: url("../assets/white-pencil.png");
+  background-size: cover;
+  border: 4px double var(--pp-pink);
+  border-radius: var(--space-xs);
+  padding: var(--space-md);
+}
+.pp-dialog .window-content p {
+  color: var(--pp-ink-story);
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: var(--space-sm);
+}
+.pp-dialog .window-content label {
+  color: var(--pp-ink-faded);
+  font-weight: bold;
+}
+.pp-dialog .window-content input[type="number"] {
+  border: 2px solid var(--pp-pink);
+  border-radius: var(--space-xs);
+  background: var(--pp-white);
+  color: var(--pp-brown);
+  text-align: center;
+}
+.pp-dialog .dialog-buttons,
+.pp-dialog .form-footer {
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0 0 0;
+}
+.pp-dialog .dialog-buttons button,
+.pp-dialog .form-footer button,
+.pp-dialog .window-content button {
+  background: var(--pp-white);
+  border: 2px solid var(--pp-pink);
+  border-radius: var(--space-xs);
+  color: var(--pp-brown);
+  font-family: var(--secondary-font);
+  letter-spacing: 0.02em;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.pp-dialog .dialog-buttons button:hover,
+.pp-dialog .form-footer button:hover,
+.pp-dialog .window-content button:hover {
+  background: var(--pp-pink);
+  color: var(--pp-white);
+  -webkit-transform: translateY(-2px);
+          transform: translateY(-2px);
+  -webkit-box-shadow: 0 4px 10px rgba(142, 68, 74, 0.2);
+          box-shadow: 0 4px 10px rgba(142, 68, 74, 0.2);
+}
+.pp-dialog .dialog-buttons button.default,
+.pp-dialog .form-footer button.default {
+  border: 2px solid var(--pp-rose-deep);
+  -webkit-box-shadow: 0 0 0 2px rgba(142, 68, 74, 0.25);
+          box-shadow: 0 0 0 2px rgba(142, 68, 74, 0.25);
+}
+
+/* Theme variants - seguem a mesma cor escolhida na ficha da Princesa */
+.pp-dialog.market .window-header {
+  background: var(--pp-gold);
+}
+.pp-dialog.market .window-content {
+  border-color: var(--pp-gold);
+}
+.pp-dialog.market .window-content input[type="number"],
+.pp-dialog.market .dialog-buttons button,
+.pp-dialog.market .form-footer button,
+.pp-dialog.market .window-content button {
+  border-color: var(--pp-gold);
+}
+.pp-dialog.market .dialog-buttons button:hover,
+.pp-dialog.market .form-footer button:hover,
+.pp-dialog.market .window-content button:hover {
+  background: var(--pp-gold);
+}
+
+.pp-dialog.candy .window-header {
+  background: var(--pp-purp);
+}
+.pp-dialog.candy .window-content {
+  border-color: var(--pp-purp);
+}
+.pp-dialog.candy .window-content input[type="number"],
+.pp-dialog.candy .dialog-buttons button,
+.pp-dialog.candy .form-footer button,
+.pp-dialog.candy .window-content button {
+  border-color: var(--pp-purp);
+}
+.pp-dialog.candy .dialog-buttons button:hover,
+.pp-dialog.candy .form-footer button:hover,
+.pp-dialog.candy .window-content button:hover {
+  background: var(--pp-purp);
+}
+
+.pp-dialog.dragon .window-header {
+  background: var(--pp-green);
+}
+.pp-dialog.dragon .window-content {
+  border-color: var(--pp-green);
+}
+.pp-dialog.dragon .window-content input[type="number"],
+.pp-dialog.dragon .dialog-buttons button,
+.pp-dialog.dragon .form-footer button,
+.pp-dialog.dragon .window-content button {
+  border-color: var(--pp-green);
+}
+.pp-dialog.dragon .dialog-buttons button:hover,
+.pp-dialog.dragon .form-footer button:hover,
+.pp-dialog.dragon .window-content button:hover {
+  background: var(--pp-green);
+}
