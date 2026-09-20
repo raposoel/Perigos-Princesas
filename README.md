@@ -1,4 +1,4 @@
-# The Official Perils & Princesses System for Foundry VTT
+# Perigos & Princesas para Foundry VTT em Brasileiro
 
 ![Foundry v13](https://img.shields.io/badge/foundry-v13-green)
 
@@ -6,7 +6,7 @@
 <img src="assets\PandP_LogoHorizontal.png"/>
 </div>
 
-> **Disclaimer:** This is the official Perils & Princesses game system for Foundry VTT. It provides basic functionality with no compendium content beyond core rules for Gifts. You must purchase the Core Rulebook for additional content. Perils & Princesses is copyrighted by Outrider Creative LLC.
+> **Retratação:** Este é o sistema de jogo para Perigos & Princesas em Brasileiro para o Foundry VTT. "Perils & Princesses" é protegido por direitos autorais da Outrider Creative LLC.
 
 ## Installing the System
 
