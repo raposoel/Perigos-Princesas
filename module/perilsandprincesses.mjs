@@ -114,7 +114,7 @@ async function createItemMacro(data, slot) {
 	if (data.type !== "Item") return;
 	if (!data.uuid.includes("Actor.") && !data.uuid.includes("Token.")) {
 		return ui.notifications.warn(
-			"You can only create macro buttons for owned Items",
+			"Você só pode criar macros a partir de Itens que pertencem a uma personagem.",
 		);
 	}
 	// If it is, retrieve it based on the uuid.
@@ -152,7 +152,7 @@ Hooks.on("renderChatMessageHTML", (message, html, data) => {
 		const itemUuid = card.dataset.itemUuid;
 
 		const item = await fromUuid(itemUuid);
-		if (!item) return ui.notifications.error("Item not found!");
+		if (!item) return ui.notifications.error("Item não encontrado!");
 
 		const r = item.system.roll;
 
@@ -173,7 +173,7 @@ Hooks.on("renderChatMessageHTML", (message, html, data) => {
 
 		return roll.toMessage({
 			speaker: ChatMessage.getSpeaker({ actor: item.actor }),
-			flavor: `<span class="pp-font-display">Rolling ${item.name}</span>`,
+			flavor: `<span class="pp-font-display">Rolando ${item.name}</span>`,
 		});
 	});
 });
@@ -195,7 +195,7 @@ function rollItemMacro(itemUuid) {
 		if (!item || !item.parent) {
 			const itemName = item?.name ?? itemUuid;
 			return ui.notifications.warn(
-				`Could not find item ${itemName}. You may need to delete and recreate this macro.`,
+				`Não foi possível encontrar o item ${itemName}. Talvez seja preciso apagar e recriar esta macro.`,
 			);
 		}
 

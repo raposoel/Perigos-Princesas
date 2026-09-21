@@ -72,7 +72,7 @@
 		}
 	},
 	"Item": {
-		"types": ["item", "feature"],
+		"types": ["item", "feature", "arma"],
 		"templates": {
 			"baseItem": {
 				"description": ""
@@ -83,6 +83,25 @@
 			"quantity": 1,
 			"cost": "",
 			"weight": 0,
+			"relicDice": {
+				"relic1": false,
+				"relic2": false,
+				"relic3": false,
+				"relic4": false,
+				"extraRelic": false
+			},
+			"roll": {
+				"diceNum": 1,
+				"diceSize": "d4",
+				"diceBonus": ""
+			}
+		},
+		"arma": {
+			"templates": ["base"],
+			"quantity": 1,
+			"cost": "",
+			"weight": 0,
+			"virtudeAtaque": "resolve",
 			"relicDice": {
 				"relic1": false,
 				"relic2": false,

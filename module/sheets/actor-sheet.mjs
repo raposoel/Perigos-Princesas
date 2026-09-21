@@ -81,10 +81,10 @@ export class PerilsAndPrincessesActorSheet
 				glimaura: "Aura Cintilante",
 				elementcon: "Conexão Elemental",
 				wildheart: "Coração Selvagem",
+				sageint: "Intelecto Sábio",
 				kitchmag: "Magia da Cozinha",
 				regpres: "Presença Régia",
 				bogwis: "Sabedoria do Pântano",
-				sageint: "Sábio Intelecto",
 				healtouch: "Toque Curativo",
 				enchantvoice: "Voz Encantadora",
 			};
@@ -97,7 +97,7 @@ export class PerilsAndPrincessesActorSheet
 				bogwis: {
 					title: "Sabedoria do Pântano",
 					description:
-						"Sua Fada Madrinha a imbuiu com o espírito dos brejos encharcados do mundo; um exterior perturbador de lama e sujeira esconde um ecossistema fervilhante de vida. A flora e a fauna desses mundos pantanosos oferecem uma fartura para quem é sábia nas formas de usá-las.",
+						"Sua Fada Madrinha a imbuiu com o espírito dos pântanos encharcados do mundo; um exterior perturbador de lama e sujeira esconde um ecossistema fervilhante de vida. A flora e a fauna desses mundos pantanosos oferecem uma fartura para quem é sábia nas formas de usá-las.",
 					talents: ["Herbologia", "Coletar Alimentos", "Medicina"],
 					innate: [
 						{
@@ -118,12 +118,12 @@ export class PerilsAndPrincessesActorSheet
 						{
 							level: 2,
 							name: "Presença Perturbadora",
-							text: "Quem não a entende acha seu semblante assustador, especialmente quando você assume o aspecto sombrio e aterrorizante da bruxa do pântano. [SOMA] alvos Por Perto devem fazer um SALVAMENTO ou fugir de você por [DADOS] minutos, ou até serem feridos.",
+							text: "Quem não a entende acha seu semblante assustador, especialmente quando você assume o aspecto sombrio e aterrorizante da bruxa do pântano. [SOMA] alvos Por Perto devem fazer um SALVAMENTO ou fugir de você por [DADOS] minutos, ou até serem feridas.",
 						},
 						{
 							level: 3,
 							name: "Toque da Habitante do Pântano",
-							text: "Ao seu toque, transforme outras criaturas em formas humildes e pantanosas — e vice-versa! Alvos que não consentirem devem fazer um SALVAMENTO ou serem transformados em sapo, rã, lagartixa-d'água, inseto ou outra criatura do brejo por [SOMA] horas. Se o alvo já for uma dessas criaturas, você o transforma em uma versão humanoide maior e inteligente, que pode falar com você ou até segui-la pela duração do efeito. Se o alvo estava amaldiçoado com aquela forma, esta habilidade desfaz a maldição.",
+							text: "Ao seu toque, transforme outras criaturas em formas humildes e pantanosas — e vice-versa! Alvos que não consentirem devem fazer um SALVAMENTO ou serem transformados em sapo, rã, tritão, inseto ou outra criatura do pântano por [SOMA] horas. Se o alvo já for uma dessas criaturas, você o transforma em uma versão humanoide maior e inteligente, que pode falar com você ou até segui-la pela duração do efeito. Se o alvo estava amaldiçoado com aquela forma, esta habilidade desfaz a maldição.",
 						},
 						{
 							level: 4,
@@ -132,12 +132,12 @@ export class PerilsAndPrincessesActorSheet
 						},
 					],
 					mishaps: [
-						"Imunda: Salpicada de lama, sujando-a por completo.",
-						"Amaldiçoada: Magia instável se volta contra você; sofra d4 de dano.",
-						"Limpa Demais: Os DD só retornam em um 1–2 até você tomar um banho de lama.",
-						"Encharcada: Você fica Cansada até se secar.",
-						"Incompreendida: As pessoas a evitam até você realizar um ato de bondade.",
-						"Desgastada: Aspecto permanente da bruxa do pântano (pele viscosa, voz rouca e grasnante).",
+						"Imunda: O espírito do pântano a respinga com lama, sujando-a por completo.",
+						"Amaldiçoada: Sua magia instável se volta contra você; sofra d4 de dano.",
+						"Limpa Demais: Os DD só retornam em um 1–2 até você Gastar Tempo curtindo um banho de lama.",
+						"Encharcada: Você fica Cansada até conseguir se secar em um lugar quente.",
+						"Incompreendida: As pessoas instintivamente a evitam ou desconfiam de você até que realize um ato de bondade para uma desconhecida.",
+						"Desgastada: Você adquire um aspecto permanente da bruxa do pântano: cabelo ralo, fedor de pântano, corpo torto, pele viscosa ou voz rouca e grasnante.",
 					],
 				},
 				wildheart: {
@@ -467,7 +467,7 @@ export class PerilsAndPrincessesActorSheet
 				],
 			},
 			sageint: {
-				title: "Sábio Intelecto",
+				title: "Intelecto Sábio",
 				description:
 					"Você tem um intelecto sábio e é uma fonte de conhecimento histórico, folclore antigo e saber prático. Seu nariz sempre está enfiado em algum livro, porque você sente que algo especial lhe aguarda se continuar desvendando os mistérios da vida.",
 				talents: ["Caligrafia", "Linguística", "História", "Folclore"],
@@ -766,8 +766,13 @@ export class PerilsAndPrincessesActorSheet
 			const li = $(ev.currentTarget).parents(".item");
 			const item = this.actor.items.get(li.data("itemId"));
 
-			// 3. Only trigger if the item exists
-			if (item) this._onItemChat(item);
+			// 3. Only trigger if the item exists.
+			// Armas abrem direto o diálogo de ataque (Teste de Virtude + dano em
+			// sequência); os demais itens seguem o fluxo normal de chat card.
+			if (item) {
+				if (item.type === "arma") this._onWeaponAttackDialog(item);
+				else this._onItemChat(item);
+			}
 
 			return false; // Final insurance against double-triggering
 		});
@@ -1033,6 +1038,91 @@ export class PerilsAndPrincessesActorSheet
 		roll.toMessage({
 			speaker: ChatMessage.getSpeaker({ actor: this.actor }),
 			flavor: messageContent,
+		});
+	}
+
+	/**
+	 * Abre o diálogo de ataque de uma Arma: testa a Virtude configurada na
+	 * arma (Determinação por padrão) e, se for sucesso, rola o dano em
+	 * seguida automaticamente.
+	 */
+	_onWeaponAttackDialog(item) {
+		const virtueKey = item.system.virtudeAtaque || "resolve";
+		const virtue = this.actor.system.virtues?.[virtueKey];
+		const label = virtue?.label || virtueKey;
+		const targetValue = virtue?.value ?? 8;
+
+		new Dialog(
+			{
+				title: `Ataque: ${item.name}`,
+				content: `<p class="pp-text-center">Testando <strong>${label}</strong> contra um valor de <strong>${targetValue}</strong> para atacar com <strong>${item.name}</strong>.</p>`,
+				buttons: {
+					adv: {
+						label: "Vantagem",
+						callback: () =>
+							this._executeWeaponAttack("2d20kl", label, targetValue, item),
+					},
+					norm: {
+						label: "Rolagem Normal",
+						callback: () =>
+							this._executeWeaponAttack("1d20", label, targetValue, item),
+					},
+					dis: {
+						label: "Desvantagem",
+						callback: () =>
+							this._executeWeaponAttack("2d20kh", label, targetValue, item),
+					},
+				},
+				default: "norm",
+			},
+			{ classes: ["dialog", "pp-dialog", this._getThemeClass()] },
+		).render(true);
+	}
+
+	/**
+	 * Executa o Teste de Virtude de ataque de uma Arma. Em caso de sucesso,
+	 * rola o dano da arma automaticamente e posta os dois resultados no chat.
+	 */
+	async _executeWeaponAttack(formula, label, targetValue, item) {
+		const roll = await new Roll(formula).roll({ async: true });
+		const result = roll.total;
+
+		const isSuccess = result <= targetValue;
+		const resultText = isSuccess ? "Sucesso" : "Falha";
+		const resultColor = isSuccess ? "#4a5d4e" : "#8e444a";
+
+		const attackContent = `
+			<div class="pp-chat-card">
+			<h3 class="pp-font-display">Ataque: ${item.name}</h3>
+			<div class="result" style="color: ${resultColor};">
+				${resultText}
+			</div>
+			</div>
+		`;
+
+		await roll.toMessage({
+			speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+			flavor: attackContent,
+		});
+
+		if (!isSuccess) return;
+
+		const r = item.system.roll;
+		const dNum = r.diceNum ?? 1;
+		const dSize = r.diceSize || "d4";
+		const dBonus = r.diceBonus ? ` + ${r.diceBonus}` : "";
+		const dmgFormula = `${dNum}${dSize}${dBonus}`;
+
+		const dmgRoll = await new Roll(dmgFormula).roll({ async: true });
+		const dmgContent = `
+			<div class="pp-chat-card">
+			<h3 class="pp-font-display">Dano: ${item.name}</h3>
+			</div>
+		`;
+
+		await dmgRoll.toMessage({
+			speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+			flavor: dmgContent,
 		});
 	}
 

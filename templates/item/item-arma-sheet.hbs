@@ -1,0 +1,194 @@
+<form class="{{cssClass}} pink-card flex-col" autocomplete="off">
+	<header class="sheet-header">
+		<div class="fairytale-container">
+			<img
+				class="fairytale-frame"
+				src="{{item.img}}"
+				data-edit="img"
+				title="{{item.name}}"
+			/>
+		</div>
+		<div class="header-fields">
+			<h1 class="charname"><input
+					name="name"
+					type="text"
+					value="{{item.name}}"
+					placeholder="Nome"
+				/></h1>
+			<div class="grid grid-2">
+				<div class="resource">
+					<label class="resource-label">Quantidade</label>
+					<input
+						type="text"
+						name="system.quantity"
+						value="{{system.quantity}}"
+						data-dtype="Number"
+					/>
+				</div>
+				<div class="resource">
+					<label class="resource-label">Espaço</label>
+					<div class="flex-row">
+						<div class="hd flex-col all-center">
+							<input
+								type="radio"
+								name="system.weight"
+								value="0"
+								{{checked (eq system.weight 0)}}
+								data-dtype="Number"
+							/>
+							<span class="tiny-text"> Sem Espaço (0) </span>
+						</div>
+						<div class="hd flex-col all-center">
+							<input
+								type="radio"
+								name="system.weight"
+								value="1"
+								{{checked (eq system.weight 1)}}
+								data-dtype="Number"
+							/>
+							<span class="tiny-text">Normal (1)</span>
+						</div>
+						<div class="hd flex-col all-center">
+							<input
+								type="radio"
+								name="system.weight"
+								value="2"
+								{{checked (eq system.weight 2)}}
+								data-dtype="Number"
+							/>
+							<span class="tiny-text">Volumoso (2)</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	{{! Sheet Tab Navigation }}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">Descrição</a>
+		<a class="item" data-tab="attributes">Atributos</a>
+	</nav>
+
+	{{! Sheet Body }}
+	<section class="sheet-body">
+
+		{{! Description Tab }}
+		<div class="tab" data-group="primary" data-tab="description">
+			{{! Editors must receive enriched text data from getData to properly handle rolls }}
+			{{editor
+				enrichedDescription
+				target="system.description"
+				engine="prosemirror"
+				button=true
+				editable=editable
+			}}
+		</div>
+
+		{{! Attributes Tab }}
+		<div class="tab attributes" data-group="primary" data-tab="attributes">
+			<div class="resource all-center">
+				<div class="grid grid-3">
+					<div class="grid-span-3">
+						<label class="resource-label">Virtude de Ataque</label>
+						<span class="tiny-text">Virtude testada para acertar o ataque com esta
+							arma. A maioria das armas usa Determinação; armas leves e sorrateiras
+							(como a Adaga) podem usar Graça.</span>
+						<select name="system.virtudeAtaque">
+							<option value="resolve" {{#if (eq system.virtudeAtaque "resolve")}}selected{{/if}}>Determinação</option>
+							<option value="grace" {{#if (eq system.virtudeAtaque "grace")}}selected{{/if}}>Graça</option>
+							<option value="wits" {{#if (eq system.virtudeAtaque "wits")}}selected{{/if}}>Astúcia</option>
+						</select>
+					</div>
+					<div class="grid-span-1">
+						<label class="resource-label">Número de Dados</label>
+						<input
+							type="text"
+							name="system.roll.diceNum"
+							value="{{system.roll.diceNum}}"
+							data-dtype="Number"
+						/>
+					</div>
+					<div class="grid-span-1">
+						<label class="resource-label">Tamanho do Dado (Dano)</label>
+						<input
+							type="text"
+							name="system.roll.diceSize"
+							value="{{system.roll.diceSize}}"
+							data-dtype="String"
+						/>
+					</div>
+					<div class="grid-span-1">
+						<label class="resource-label">Modificador de Dano</label>
+						<input
+							type="text"
+							name="system.roll.diceBonus"
+							value="{{system.roll.diceBonus}}"
+							data-dtype="String"
+						/>
+					</div>
+					<div class="grid-span-3">
+						<label class="resource-label">Dados de Dom da Relíquia</label>
+						<span class="tiny-text">Se esta arma também for uma Relíquia com seus
+							próprios Dados de Dom, registre as cargas aqui.</span>
+						<div class="gift-dice-pool">
+							<div class="dice-checkboxes flexrow all-center">
+								<div class="flex-col all-center">
+									<input
+										type="checkbox"
+										name="system.relicDice.relic1"
+										{{checked system.relicDice.relic1}}
+									/>
+									<label class="tiny-text">I</label>
+								</div>
+								<div class="flex-col all-center">
+									<input
+										type="checkbox"
+										name="system.relicDice.relic2"
+										{{checked system.relicDice.relic2}}
+									/>
+									<label class="tiny-text">II</label>
+								</div>
+								<div class="flex-col all-center">
+									<input
+										type="checkbox"
+										name="system.relicDice.relic3"
+										{{checked system.relicDice.relic3}}
+									/>
+									<label class="tiny-text">III</label>
+								</div>
+								<div class="flex-col all-center">
+									<input
+										type="checkbox"
+										name="system.relicDice.relic4"
+										{{checked system.relicDice.relic4}}
+									/>
+									<label class="tiny-text">IV</label>
+								</div>
+								<span class="dice-divider"></span>
+								<div class="flex-col all-center">
+									<input
+										type="checkbox"
+										name="system.relicDice.extraRelic"
+										{{checked system.relicDice.extraRelic}}
+									/>
+									<label class="tiny-text">Extra</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			{{! THE ATTACK BUTTON }}
+			<button
+				type="button"
+				class="pp-roll-btn pp-item-roll"
+				data-roll-type="arma"
+			>
+				<i class="fas fa-dice-d20"></i>
+				Atacar
+			</button>
+		</div>
+	</section>
+</form>

@@ -1,0 +1,155 @@
+<div class="perilsandprincesses pp-cp flex-col">
+
+	{{#if isFullMode}}
+	<div class="pp-cp-steps flex-row all-center">
+		<span class="pp-cp-step {{#if isGiftStep}}active{{/if}}">1. Dom</span>
+		<span class="pp-cp-step {{#if isAttributesStep}}active{{/if}}">2. Atributos</span>
+		<span class="pp-cp-step {{#if isPcStep}}active{{/if}}">3. Pontos Coração</span>
+	</div>
+	{{/if}}
+
+	{{!-- ================= PASSO 1: DOM ================= --}}
+	{{#if isGiftStep}}
+	<div class="pp-cp-gift-step flex-row">
+		<div class="pp-cp-gift-list flex-col">
+			{{#each gifts}}
+			<div
+				class="pp-cp-gift-item flex-row {{#if this.selected}}selected{{/if}}"
+				data-gift="{{this.key}}"
+			>
+				<img src="{{this.img}}" />
+				<span>{{this.title}}</span>
+			</div>
+			{{/each}}
+		</div>
+
+		<div class="pp-cp-gift-preview flex-col all-center pink-card">
+			{{#if selectedGiftData}}
+				<img class="pp-cp-gift-preview-img" src="{{selectedGiftData.img}}" />
+				<h3>{{selectedGiftData.title}}</h3>
+				{{#if selectedGiftData.description}}
+					<p class="tiny-text">{{selectedGiftData.description}}</p>
+				{{else}}
+					<p class="tiny-text">
+						<em
+							>O conteúdo completo desse Dom ainda não foi adicionado ao
+							sistema — mas ele já pode ser escolhido normalmente.</em
+						>
+					</p>
+				{{/if}}
+			{{else}}
+				<p class="tiny-text">Selecione um Dom na lista ao lado.</p>
+			{{/if}}
+		</div>
+	</div>
+
+	<footer class="pp-cp-footer flex-row">
+		{{#if isGiftMode}}
+			<button
+				type="button"
+				class="pp-cp-finish-gift"
+				{{#unless selectedGift}}disabled{{/unless}}
+			>
+				Salvar Dom
+			</button>
+		{{else}}
+			<button
+				type="button"
+				class="pp-cp-next"
+				{{#unless selectedGift}}disabled{{/unless}}
+			>
+				Próximo: Atributos
+			</button>
+		{{/if}}
+	</footer>
+	{{/if}}
+
+	{{!-- ================= PASSO 2: ATRIBUTOS ================= --}}
+	{{#if isAttributesStep}}
+	<div class="pp-cp-attributes-step flex-col all-center">
+		{{#unless attributesRolled}}
+			<p>
+				Role 4d4 para cada Virtude (Determinação, Graça e Astúcia), nessa
+				ordem.
+			</p>
+			<button type="button" class="pp-cp-roll-attributes pp-item-roll">
+				Rolar Atributos
+			</button>
+		{{else}}
+			<section class="flexrow pink-card virtue-row">
+				{{#each virtues}}
+				<div
+					class="fairytale-container pp-cp-virtue-box {{#if this.swapSelected}}selected{{/if}}"
+					data-virtue="{{this.key}}"
+				>
+					<div class="fairytale-frame"><span>{{this.value}}</span></div>
+					<div class="virtue-banner">{{this.label}}</div>
+				</div>
+				{{/each}}
+			</section>
+
+			{{#if canAdjust}}
+				{{#if isRerollMode}}
+					<p class="tiny-text">Clique na Virtude que você quer rerrolar.</p>
+					<button type="button" class="pp-cp-cancel-adjust">Cancelar</button>
+				{{else if isSwapMode}}
+					<p class="tiny-text">
+						Clique em duas Virtudes para trocar os valores entre elas.
+					</p>
+					<button type="button" class="pp-cp-cancel-adjust">Cancelar</button>
+				{{else}}
+					<p class="tiny-text">
+						Depois da rolagem inicial, você pode rerrolar UMA Virtude OU
+						trocar os valores de DUAS — escolha só uma dessas ações.
+					</p>
+					<div class="flex-row">
+						<button type="button" class="pp-cp-start-reroll">
+							Rerrolar uma Virtude
+						</button>
+						<button type="button" class="pp-cp-start-swap">
+							Trocar duas Virtudes
+						</button>
+					</div>
+				{{/if}}
+			{{else}}
+				<p class="tiny-text">Ajuste já utilizado.</p>
+			{{/if}}
+
+			<footer class="pp-cp-footer flex-row">
+				<button type="button" class="pp-cp-back">Voltar</button>
+				<button type="button" class="pp-cp-confirm-attributes">
+					Próximo: Pontos Coração
+				</button>
+			</footer>
+		{{/unless}}
+	</div>
+	{{/if}}
+
+	{{!-- ================= PASSO 3: PC ================= --}}
+	{{#if isPcStep}}
+	<div class="pp-cp-pc-step flex-col all-center">
+		<p>Pontos Coração iniciais: d4+4.</p>
+		<button type="button" class="pp-cp-roll-pc pp-item-roll">
+			{{#if pc}}Rolar Novamente{{else}}Rolar PC{{/if}}
+		</button>
+
+		{{#if pc}}
+		<div class="fairytale-container">
+			<div class="fairytale-frame"><span>{{pc}}</span></div>
+			<span class="tiny-text">PC</span>
+		</div>
+		{{/if}}
+
+		<footer class="pp-cp-footer flex-row">
+			<button type="button" class="pp-cp-back">Voltar</button>
+			<button
+				type="button"
+				class="pp-cp-finish"
+				{{#unless pc}}disabled{{/unless}}
+			>
+				Concluir Criação
+			</button>
+		</footer>
+	</div>
+	{{/if}}
+</div>

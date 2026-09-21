@@ -95,6 +95,15 @@ export class PerilsAndPrincessesItemSheet
 
 		html.find(".pp-item-roll").click((ev) => {
 			const item = this.item;
+
+			// Se for uma Arma pertencente a uma Princesa/NPC, usa o fluxo de
+			// ataque (Teste de Virtude + dano em sequência) da própria ficha
+			// da personagem, em vez de uma rolagem solta.
+			if (item.type === "arma" && item.actor?.sheet) {
+				item.actor.sheet._onWeaponAttackDialog(item);
+				return;
+			}
+
 			const num = item.system.roll.diceNum || 0;
 			const size = item.system.roll.diceSize || "0";
 			const bonus = item.system.roll.diceBonus
@@ -106,7 +115,7 @@ export class PerilsAndPrincessesItemSheet
 
 			roll.toMessage({
 				speaker: ChatMessage.getSpeaker({ item: this.item }),
-				flavor: `Using ${item.name}`,
+				flavor: `Usando ${item.name}`,
 			});
 		});
 	}
@@ -118,7 +127,7 @@ export class PerilsAndPrincessesItemSheet
         <h3 class="pp-font-display">${item.name}</h3>
         <div class="pp-font-main">${item.system.description}</div>
         <button type="button" class="pp-chat-roll-btn">
-            <i class="fas fa-dice-d20"></i> Roll Item
+            <i class="fas fa-dice-d20"></i> Rolar Item
         </button>
     </div>`;
 

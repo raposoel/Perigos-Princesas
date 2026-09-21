@@ -1,0 +1,54 @@
+{
+	"BOILERPLATE": {
+		"Ability": {
+			"Str": { "long": "Strength", "abbr": "str" },
+			"Con": { "long": "Constitution", "abbr": "con" },
+			"Dex": { "long": "Dexterity", "abbr": "dex" },
+			"Int": { "long": "Intelligence", "abbr": "int" },
+			"Wis": { "long": "Wisdom", "abbr": "wis" },
+			"Cha": { "long": "Charisma", "abbr": "cha" }
+		},
+		"SheetLabels": {
+			"Actor": "PerilsAndPrincesses Actor Sheet",
+			"Item": "PerilsAndPrincesses Item Sheet"
+		},
+		"Item": {
+			"Spell": {
+				"SpellLVL": "Level {level} Spells",
+				"AddLVL": "Add LVL {level}"
+			}
+		},
+		"Effect": {
+			"Source": "Source",
+			"Toggle": "Toggle Effect",
+			"Temporary": "Temporary Effects",
+			"Passive": "Passive Effects",
+			"Inactive": "Inactive Effects"
+		}
+	},
+
+	"PERILSANDPRINCESSES": {
+		"SheetLabels": {
+			"Actor": "Ficha de Personagem",
+			"Item": "Ficha de Item"
+		},
+		"Effect": {
+			"Temporary": "Efeitos Temporários",
+			"Passive": "Efeitos Passivos",
+			"Inactive": "Efeitos Inativos"
+		}
+	},
+
+	"TYPES": {
+		"Actor": {
+			"character": "Princesa",
+			"npc": "NPC"
+		},
+		"Item": {
+			"item": "Item",
+			"feature": "Habilidade",
+			"spell": "Feitiço",
+			"arma": "Arma"
+		}
+	}
+}
